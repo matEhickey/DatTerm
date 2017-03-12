@@ -1,0 +1,54 @@
+<html>
+ <head> 
+    <meta charset="UTF-8" /> 
+  
+    <script language="javascript" type="text/javascript"  src="processing.js"></script>
+    
+    <style> body {padding: 0; margin: 0;} </style> 
+ </head> 
+ 
+ <body>   
+    <script type="application/processing" target="mon_prog">
+  float t;
+float theta;
+float numb = 4;
+int maxFrameCount = 100;
+
+int a = 31;
+int b = 10;
+
+void setup() {
+  size(250, 200, P2D);
+  noFill();
+  strokeWeight(3);
+  noStroke();
+  strokeCap(ROUND);
+  frameRate(30);
+}
+
+void draw() {
+  background(#1c1e22);
+  translate(width/2, height/2);  
+
+  t = (float)frameCount/maxFrameCount;
+  theta = TWO_PI*t;
+  for ( int x= 0; x <= 150; x += 15) {
+    for (int i = 0; i < numb-1; i++) {
+      float rot = TWO_PI/numb*i;
+
+      float offSet = (i*b)+(x*a);   
+      float sz1 = map(cos(-(theta)+offSet), 0, 1, 90, 0);
+      float sz2 = map(sin(-(theta)+offSet), 0, 1, 0, 90);
+
+      stroke(160-(x/3), 180, 105+(x/3));
+      rotate(rot);
+      arc(0, 0, x, x, radians(sz2), radians(sz1));
+    }
+  }
+
+}
+        
+        </script>
+    <canvas id="mon_prog"/></canvas>
+ </body>
+</html>

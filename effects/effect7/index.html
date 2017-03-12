@@ -1,0 +1,69 @@
+<html>
+ <head> 
+    <meta charset="UTF-8" /> 
+  
+    <script language="javascript" type="text/javascript"  src="processing.js"></script>
+    
+    <style> body {padding: 0; margin: 0;} </style> 
+ </head> 
+ 
+ <body>   
+    <script type="application/processing" target="mon_prog">
+Particle[] particles;
+
+int am = 1000;
+
+void setup() {
+  size(250, 200);
+  noStroke();
+  particles = new Particle[am];
+  for (int i = 0; i < am; i++) {
+    particles[i] = new Particle(new PVector(0, 0), i);
+  }
+}
+
+void draw() {
+  background(#1c1e22);
+  translate(width/2, height/2);
+  for (int i = 0; i < am; i++) {
+    particles[i].draw();
+  }
+  for (int i = 0; i < am; i++) {
+    particles[i].drawMid();
+    particles[i].move();
+  }
+}
+
+class Particle {
+  PVector loc, vel;
+  float a, s, radius;
+
+  Particle(PVector l, float i) {
+    loc = l;
+    a = i;
+    s = random(200, 250);
+  }
+
+  void draw() {
+    //Change the size of the particle in relation to its distance from the center.
+    radius = map(dist(loc.x, loc.y, 0, 0), 0, 150, 10, 1);
+    fill(0, 150, 255);
+    ellipse(loc.x, loc.y, radius, radius);
+  }
+
+  void drawMid() {
+    fill(40);
+    ellipse(loc.x, loc.y, radius-4, radius-4);
+  }
+
+  void move() {
+    float r = sin(radians(frameCount*(s/200)))/2;
+    vel = new PVector(sin(radians(a))*r, cos(radians(a))*r);
+    vel.mult(1.2);
+    loc.add(vel);
+  }
+}
+        </script>
+    <canvas id="mon_prog"/></canvas>
+ </body>
+</html>
